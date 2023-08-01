@@ -221,7 +221,7 @@ getCamSetup<-function(FullHFOV, FullVFOV,
 #' @param X1 x pixel coordinate of base of annotation object
 #' @param Y1 y pixel coordinate of base of annotation object
 #' @param X2 x pixel coordinate of top of annotation object
-#' @param Y1 y pixel coordinate of top of annotation object
+#' @param Y2 y pixel coordinate of top of annotation object
 #' @param NadirX x pixel coordinate of point directly beneath camera
 #' @param NadirY y pixel coordinate of point directly beneath camera
 #' @param PPX x pixel denoting principle point of image (middle)

@@ -1,22 +1,6 @@
 ################################################################
 # GetStillImages - Fetch still images from video at fixed intervals
 
-####required packages
-library("exifr") # read video metadata
-library('imager') # image readign
-library('tools') # file extension remover code
-library('utils') # file extension remover code
-#' @import tools
-#' @import imager
-#' @import exifr
-#' @importFrom utils txtProgressBar setTxtProgressBar
-
-################################################################
-# Helper functions
-################################################################
-# convert degrees to radians
-deg2rad<-function(deg){
-    return(deg * pi / 180)}
 
 ################################################################
 # Main function
@@ -26,22 +10,24 @@ deg2rad<-function(deg){
 #' @param video - file name of your video survey
 #' @param outdir - directory for output images (default = where video is located
 #' @param interval - interval in seconds for stills (default 30 seconds)
-#' @param window - time window around interval to look for best image (default 1 second)
+#' @param window - time window (in seconds) around interval to look for best image (default 1 second)
 #' @param dark.max - maximum proportion of dark pixels acceptable for image (default 0.1)
 #' @param outdir - directory for output images (default = where video is located)
-#' @param verbose - print details of progress
+#' @param time.offset - start still gathering from this point in the video (time in seconds) 
 #' @details Fetch best-focus still images from video at fixed intervals 
 #' @return Dataframe of timecode, image files, focus score & darkness pixels 
+#' @examples
+#' # FixedIntervalStills("myvideo.mp4", window=0.5, interval=30)
 #' @export
 
-FixedIntervalStills<-function(video, outdir=NA, window=1, interval=30,
-                              dark.max=0.1, time.offset=0, verbose=F){
+FixedIntervalStills<-function(video, outdir=NA, window=0.5, interval=30,
+                              dark.max=0.1, time.offset=0){
 
     # get video metadata
-    meta<-read_exif(video)
+    meta<-exifr::read_exif(video)
 
     # kernel for focus calculation
-    ck<-as.cimg(c(0,1,0,1,-4,1,0,1,0))
+    ck<-imager::as.cimg(c(0,1,0,1,-4,1,0,1,0))
 
     # check if output directory is given
     if(is.na(outdir)){
@@ -50,7 +36,7 @@ FixedIntervalStills<-function(video, outdir=NA, window=1, interval=30,
     }
 
     # find basename for video
-    station<-file_path_sans_ext(basename(video))
+    station<-tools::file_path_sans_ext(basename(video))
 
     # store current time code and duration of video
     timecode<-time.offset # for first test video
@@ -61,12 +47,8 @@ FixedIntervalStills<-function(video, outdir=NA, window=1, interval=30,
     frames<-round(meta$VideoFrameRate * window)
     frame.int<-1/meta$VideoFrameRate
 
-    if(verbose){
-        print(paste("video: ", video, ", window: ", window, ", interval: ", interval))
-    }
-
-    pb = txtProgressBar(min = 0, max = duration, initial = 0, style=3)
-    setTxtProgressBar(pb, 0)
+    pb = utils::txtProgressBar(min = 0, max = duration, initial = 0, style=3)
+    utils::setTxtProgressBar(pb, 0)
 
     # set up returnable dataframe
     outdf<-data.frame(Time=seq(timecode, duration, interval), File=NA, Focus=NA, DarkPCT=NA)
@@ -82,16 +64,15 @@ FixedIntervalStills<-function(video, outdir=NA, window=1, interval=30,
         # now loop through stills
         for(j in 0:frames){
 
-            RGB<-load.video(video, skip.to=timecode+(j*frame.int), frames=1)
-                # convert to greyscale
-            grey<-grayscale(RGB)
-                #grey<-rgb2grey(RGB)
+            RGB<-imager::load.video(video, skip.to=timecode+(j*frame.int), frames=1)
+            # convert to greyscale
+            grey<-imager::grayscale(RGB)
             grey.dark<-sum(grey<0.0001)/pix
 
             # acceptable darkness levels (proxy for camera angle)
             if(grey.dark<dark.max){
-                gck<-convolve(grey*10^5, ck)
-                focus<-sd(gck)^2
+                gck<-imager::convolve(grey*10^5, ck)
+                focus<-stats::sd(gck)^2
 
                 # if better focus then keep
                 if(focus>focus.best){
@@ -103,11 +84,11 @@ FixedIntervalStills<-function(video, outdir=NA, window=1, interval=30,
         }
 
         # fetch best still
-        RGB<-load.video(video, skip.to=timecode+(best.j*frame.int), frames=1)
+        RGB<-imager::load.video(video, skip.to=timecode+(best.j*frame.int), frames=1)
 
         # construct file name for image
         outname<-paste(station,"-", timecode, ".png",sep="")
-        save.image(RGB, outname)
+        imager::save.image(RGB, outname)
 
         outdf[which(outdf$Time==timecode),]<-c(timecode, outname, round(focus.best,0), dark.best)
         ## print(paste("Station:", station, ", File:", flist[i],
@@ -118,7 +99,7 @@ FixedIntervalStills<-function(video, outdir=NA, window=1, interval=30,
         timecode<-timecode+interval
 
         # increment progress bar
-        setTxtProgressBar(pb, timecode)
+        utils::setTxtProgressBar(pb, timecode)
     }
 
     # end progress bar

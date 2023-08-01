@@ -7,11 +7,10 @@
 FixedIntervalStills(
   video,
   outdir = NA,
-  window = 1,
+  window = 0.5,
   interval = 30,
   dark.max = 0.1,
-  time.offset = 0,
-  verbose = F
+  time.offset = 0
 )
 }
 \arguments{
@@ -24,7 +23,7 @@ FixedIntervalStills(
 }}
 
 \item{window}{\itemize{
-\item time window around interval to look for best image (default 1 second)
+\item time window (in seconds) around interval to look for best image (default 1 second)
 }}
 
 \item{interval}{\itemize{
@@ -35,8 +34,8 @@ FixedIntervalStills(
 \item maximum proportion of dark pixels acceptable for image (default 0.1)
 }}
 
-\item{verbose}{\itemize{
-\item print details of progress
+\item{time.offset}{\itemize{
+\item start still gathering from this point in the video (time in seconds)
 }}
 }
 \value{
@@ -47,4 +46,7 @@ Fetch stills from video at fixed intervals
 }
 \details{
 Fetch best-focus still images from video at fixed intervals
+}
+\examples{
+# FixedIntervalStills("myvideo.mp4", window=0.5, interval=30)
 }

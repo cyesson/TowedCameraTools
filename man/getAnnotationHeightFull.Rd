@@ -20,9 +20,11 @@ getAnnotationHeightFull(
 \arguments{
 \item{X1}{x pixel coordinate of base of annotation object}
 
-\item{Y1}{y pixel coordinate of top of annotation object}
+\item{Y1}{y pixel coordinate of base of annotation object}
 
 \item{X2}{x pixel coordinate of top of annotation object}
+
+\item{Y2}{y pixel coordinate of top of annotation object}
 
 \item{NadirX}{x pixel coordinate of point directly beneath camera}
 

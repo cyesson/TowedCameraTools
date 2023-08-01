@@ -6,7 +6,7 @@ Authors@R:
            comment = c(ORCID = "0000-0002-6731-4229"))
 Description: Process video and images from underwater towed camera surveys
 License: GPL-3
-Imports: tools, imager, exifr, utils
+Imports: tools, imager, exifr, utils, geosphere
 URL: https://github.com/cyesson/TowedCameraTools
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

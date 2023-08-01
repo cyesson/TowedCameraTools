@@ -29,16 +29,16 @@
 #' Layback.EndLat - Latitude of camera end position
 #' Depth - Input parameter
 #' @examples
-#' x <- Layback(StartLong=0, StartLat=0, EndLong=1, EndLat=1, Depth=100, Wirelength=120)
+#' x <- Layback(StartLong=0, StartLat=0, EndLong=1, EndLat=1, Depth=100, WireLength=120)
 #' @export
-Layback<-function(StartLong, StartLat, EndLong, EndLat, Depth, Wirelength, Offset=0){
+Layback<-function(StartLong, StartLat, EndLong, EndLat, Depth, WireLength, Offset=0){
 
     # calculate direction of travel - camera is in the opposite direction
     Bearing <- geosphere::bearing(c(EndLong, EndLat), c(StartLong,StartLat))
 
     # find layback points using start / end pos, bearing and layback distance in metres
     # use trigonometry based on wire out & depth to estimate distance behind the vessel
-    Layback.Distance <- (( Wirelength^2 - Depth^2 ) ^0.5) + Offset
+    Layback.Distance <- (( WireLength^2 - Depth^2 ) ^0.5) + Offset
 
     # find new positions using bearing and layback distance
     Layback.Start<-geosphere::destPoint(c(StartLong,StartLat), Bearing, Layback.Distance)
@@ -56,7 +56,7 @@ Layback<-function(StartLong, StartLat, EndLong, EndLat, Depth, Wirelength, Offse
                 EndLong=EndLong,
                 EndLat=EndLat,
                 Depth=Depth,
-                Wirelength=Wirelength,
+                WireLength=WireLength,
                 Offset=Offset,
                 Layback.Distance,
                 Layback.StartLat=Layback.StartLat[[1]],
