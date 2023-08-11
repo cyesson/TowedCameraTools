@@ -17,7 +17,7 @@ deg2rad<-function(deg){
 #' Convert in-air FOV angle to in-water FOV angle
 #' @param FOV value in degrees of the field of view
 #' @param RefractiveIndex value of refractive index of water (default 1.34 - varies by temperature, salinity & pressure) 
-#' @details getInWaterFOV() convert in-air field of view angle into in-water field of view angle based on refractive index of water
+#' @details InWaterFOV() convert in-air field of view angle into in-water field of view angle based on refractive index of water
 #' Formula used is 2 x asin( sin( FOV / 2 ) / RI ) where FOV= Field of View and RI = Refractive Index
 #' The default value of refractive index is 1.34, which is a commonly used value representing shallow marine environments.
 #' RI varies based on temperature, salinity and atmopheric pressure (~depth). A value of 1.33 is often used for shallow fresh water, but can go above 1.35 for very deep, saline, cold water.
@@ -25,10 +25,10 @@ deg2rad<-function(deg){
 #' (https://github.com/AlexCast/rho/)
 #' @return A value representing the in-water field of view in degrees
 #' @examples
-#' FOV.water <- getInWaterFOV(100, RefractiveIndex=1.34)
+#' FOV.water <- InWaterFOV(100, RefractiveIndex=1.34)
 #' @export
 
-getInWaterFOV<-function(FOV, RefractiveIndex=1.34){
+InWaterFOV<-function(FOV, RefractiveIndex=1.34){
     return(asin(sin(FOV * pi / 180 / 2)/RefractiveIndex)/(pi/180)*2)
 }
 
@@ -55,10 +55,10 @@ getInWaterFOV<-function(FOV, RefractiveIndex=1.34){
 #'    NadirX:   pixel coordinate of nadir in X dimension - fixed to 1/2 width of image (relative to the top left corner of the image which is position 0,0)
 #'    NadirY:   pixel coordinate of nadir in Y dimension (relative to the top left corner of the image which is position 0,0)
 #' @examples
-#' myNadir <- getNadirXY(100, 45, 2700, 1900)
+#' myNadir <- NadirXY(100, 45, 2700, 1900)
 #' @export
 
-getNadirXY<-function(VFOV, CamAngle, PixDimX, PixDimY){
+NadirXY<-function(VFOV, CamAngle, PixDimX, PixDimY){
 
     # find angles relevant for calculation
     AngCAD<-VFOV/2
@@ -115,11 +115,11 @@ getNadirXY<-function(VFOV, CamAngle, PixDimX, PixDimY){
 #'    PixSize: UsedSensorWidth / PixDimX
 #'    CamConstantC: Calculated camera constant C
 #' @examples
-#' cc<-getCamConstantC(122.6, 94.4, 94.4, 55.0, 2704, 1520, 6.17, 4.65)
+#' cc<-CamConstantC(122.6, 94.4, 94.4, 55.0, 2704, 1520, 6.17, 4.65)
 #' @export
 
 # calculate camera constant c based on sensor dimensions
-getCamConstantC<-function(FullHFOV, FullVFOV,
+CamConstantC<-function(FullHFOV, FullVFOV,
                           UsedHFOV, UsedVFOV,
                           PixDimX, PixDimY,
                           FullSensorWidth, FullSensorHeight){
@@ -167,7 +167,7 @@ getCamConstantC<-function(FullHFOV, FullVFOV,
 #' @param FullSensorHeight height of sensor in mm as reported by manufacturer (e.g. gopro 5 has width 4.65)
 #' @param CamAngle Camera angle in degrees relative to the horizon (0=horizontal, 90=downward facing)
 #' @param CamHeight Camera height in mm above the ground
-#' @details call functions getNadirXY and getCamConstantC and package output into a single list object
+#' @details call functions NadirXY and CamConstantC and package output into a single list object
 #' @return A list with the following elements
 #'    FullHFOV: Value in degrees of the horizontal field of view of a camera when using the full sensor
 #'    FullVFOV: Value in degrees of the vertical field of view of a camera when using the full sensor
@@ -187,18 +187,18 @@ getCamConstantC<-function(FullHFOV, FullVFOV,
 #'    NadirX:   X pixel coordinate of point directly beneath camera
 #'    NadirY:   Y pixel coordinate of point directly beneath camera
 #' @examples
-#' CamSetup <- getCamSetup(122.6, 94.4, 94.4, 55, 2704, 1520, 6.17, 4.65, 28.8, 550)
+#' myCamSetup <- CamSetup(122.6, 94.4, 94.4, 55, 2704, 1520, 6.17, 4.65, 28.8, 550)
 #' @export
 
-getCamSetup<-function(FullHFOV, FullVFOV,
+CamSetup<-function(FullHFOV, FullVFOV,
                       UsedHFOV, UsedVFOV,
                       PixDimX, PixDimY,
                       FullSensorWidth, FullSensorHeight,
                       CamAngle, CamHeight){
 
     # call nadir and constant functions
-    NadirInfo<-getNadirXY(UsedVFOV, CamAngle, PixDimX, PixDimY)
-    CCInfo<-getCamConstantC(FullHFOV, FullVFOV,
+    NadirInfo<-NadirXY(UsedVFOV, CamAngle, PixDimX, PixDimY)
+    CCInfo<-CamConstantC(FullHFOV, FullVFOV,
                             UsedHFOV, UsedVFOV,
                             PixDimX, PixDimY,
                             FullSensorWidth, FullSensorHeight)
@@ -257,11 +257,11 @@ getCamSetup<-function(FullHFOV, FullVFOV,
 #' ObjWidth: width of object as seen in image (mm)
 #' ObjLength: Length of object as seen in image (mm - assumes object is inclined on a plane perpendicular to the direction the camera is pointing)
 #' @examples
-#' getAnnotationHeightFull(100, 100, 100, 50, 200, 200, 100, 100, 1, 1)
+#' AnnotationHeightFull(100, 100, 100, 50, 200, 200, 100, 100, 1, 1)
 #' @export
 
 # find height of annotation object in image
-getAnnotationHeightFull<-function(X1,Y1, X2, Y2,
+AnnotationHeightFull<-function(X1,Y1, X2, Y2,
                                   NadirX, NadirY,
                                   PPX, PPY,
                                   CamConstantC, CamHeight){
@@ -314,11 +314,11 @@ getAnnotationHeightFull<-function(X1,Y1, X2, Y2,
                 ObjLength=ObjLength))
 }
                 
-getAnnotationHeight<-function(X1,Y1, X2, Y2,
+AnnotationHeight<-function(X1,Y1, X2, Y2,
                               CamSetup){
 
     # call main function parsing Camera setup
-    return(getAnnotationHeightFull(X1,Y1, X2, Y2,
+    return(AnnotationHeightFull(X1,Y1, X2, Y2,
                                    CamSetup$NadirX, CamSetup$NadirY,
                                    CamSetup$PPX, CamSetup$PPY,
                                    CamSetup$CamConstantC,
@@ -330,7 +330,7 @@ getAnnotationHeight<-function(X1,Y1, X2, Y2,
 #' @param Y1 y pixel coordinate of base of annotation object
 #' @param X2 x pixel coordinate of top of annotation object
 #' @param Y1 y pixel coordinate of top of annotation object
-#' @param CamSetup details of camera as output from function getCamSetup
+#' @param CamSetup details of camera as output from function CamSetup
 #' @details Calculate height of an annotation in an image where camera specifics such as FOV, height & angle are known
 #' @return A list with the following elements
 #' X1: x pixel coordinate of base of annotation object
@@ -360,6 +360,6 @@ getAnnotationHeight<-function(X1,Y1, X2, Y2,
 #' ObjWidth: width of object as seen in image (mm)
 #' ObjLength: Length of object as seen in image (mm - assumes object is inclined on a plane perpendicular to the direction the camera is pointing)
 #' @examples
-#' CamSetup <- getCamSetup(122.6, 94.4, 94.4, 55, 2704, 1520, 6.17, 4.65, 28.8, 550)
-#' getAnnotationHeight(100, 100, 100, 50, CamSetup)
+#' myCamSetup <- CamSetup(122.6, 94.4, 94.4, 55, 2704, 1520, 6.17, 4.65, 28.8, 550)
+#' AnnotationHeight(100, 100, 100, 50, myCamSetup)
 #' @export

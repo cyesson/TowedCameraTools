@@ -16,7 +16,7 @@ deg2rad<-function(deg){
 #' @param Angle - Angle (in dgrees) of the camera pointing down from the horizontal
 #' @param VFOV - Vertical field of view angle (in degrees)
 #' @param HFOV - Horizontal field of view angle (in degrees)
-#' @param Proportion - Proportion of image to use to estimate area (0-1 values default = 0.99)
+#' @param Proportion - Proportion of image to use to estimate area (0-1 values default = 1, using 0.99 cuts off the top 1% of the image)
 #' @details Estimate area seen in tilted camera pointing at the seabed based on Nakajima, R. et al. (2014) A new method for estimating the area of the seafloor from oblique images taken by deep-sea submersible survey platforms. JAMSTEC Report of Research and Development, 19, pp.59-66, as used in Long et al (2020) https://www.frontiersin.org/articles/10.3389/fmars.2020.00460/full
 #' @return List containing the following calculations used in estimating the area (see Long et al 2020):
 #' Height - input parameter
@@ -27,16 +27,16 @@ deg2rad<-function(deg){
 #' Beta - Angle (radians)
 #' Delta - Angle (radians)
 #' Theta - Angle (radians)
-#' LengthAE - Length (m)
-#' LengthBD - Length (m)
-#' LengthGF - Length (m)
+#' LengthAE - Length (m) - width of top of image (based on the proportion of image selected)
+#' LengthBD - Length (m) - width of bottom of image (always the bottom of image)
+#' LengthGF - Length (m) 
 #' AreaS - Area (m2)
 #' ImageArea - Area (m2)
 #' @examples
 #' x <- ImageArea(0.55, 28.8, 40.3, 66.4)
 #' @export
 
-ImageArea <- function(Height, Angle, VFOV, HFOV, Proportion=0.99){
+ImageArea <- function(Height, Angle, VFOV, HFOV, Proportion=1){
     # convert angles to radians
 
     # convert degree angles to radians

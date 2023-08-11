@@ -1,5 +1,5 @@
 ################################################################
-# GetStillImages - Fetch still images from video at fixed intervals
+# Fetch still images from video at fixed intervals
 
 
 ################################################################
