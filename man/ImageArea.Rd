@@ -4,7 +4,7 @@
 \alias{ImageArea}
 \title{Estimate area seen in tilted camera pointing at the seabed}
 \usage{
-ImageArea(Height, Angle, VFOV, HFOV, Proportion = 0.99)
+ImageArea(Height, Angle, VFOV, HFOV, Proportion = 1)
 }
 \arguments{
 \item{Height}{\itemize{
@@ -24,7 +24,7 @@ ImageArea(Height, Angle, VFOV, HFOV, Proportion = 0.99)
 }}
 
 \item{Proportion}{\itemize{
-\item Proportion of image to use to estimate area (0-1 values default = 0.99)
+\item Proportion of image to use to estimate area (0-1 values default = 1, using 0.99 cuts off the top 1\% of the image)
 }}
 }
 \value{
@@ -37,8 +37,8 @@ Alpha - Angle (radians)
 Beta - Angle (radians)
 Delta - Angle (radians)
 Theta - Angle (radians)
-LengthAE - Length (m)
-LengthBD - Length (m)
+LengthAE - Length (m) - width of top of image (based on the proportion of image selected)
+LengthBD - Length (m) - width of bottom of image (always the bottom of image)
 LengthGF - Length (m)
 AreaS - Area (m2)
 ImageArea - Area (m2)
