@@ -22,6 +22,11 @@ Calculate area seen in an image from a downwardly angled camera (need to know he
 IA<-ImmageArea(Height=0.55, Angle=28.8, VFOV=40.3, HFOV=66.4)
 ```
 
+Estimate in-water field of view from in-air field of view 
+``` r
+FOV.water <- InWaterFOV(100, RefractiveIndex=1.34)
+```
+
 Create stills from a video at regular intervals, choosing most in-focus still at each interval time period.
 ``` r
 log<-FixedIntervalStills("myvideo.mp4", window=0.5, interval=30)
