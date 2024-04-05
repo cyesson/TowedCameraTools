@@ -314,16 +314,6 @@ AnnotationHeightFull<-function(X1,Y1, X2, Y2,
                 ObjLength=ObjLength))
 }
                 
-AnnotationHeight<-function(X1,Y1, X2, Y2,
-                              CamSetup){
-
-    # call main function parsing Camera setup
-    return(AnnotationHeightFull(X1,Y1, X2, Y2,
-                                   CamSetup$NadirX, CamSetup$NadirY,
-                                   CamSetup$PPX, CamSetup$PPY,
-                                   CamSetup$CamConstantC,
-                                   CamSetup$CamHeight))
-}
 
 #' Calculate height of annotation in image
 #' @param X1 x pixel coordinate of base of annotation object
@@ -363,3 +353,14 @@ AnnotationHeight<-function(X1,Y1, X2, Y2,
 #' myCamSetup <- CamSetup(122.6, 94.4, 94.4, 55, 2704, 1520, 6.17, 4.65, 28.8, 550)
 #' AnnotationHeight(100, 100, 100, 50, myCamSetup)
 #' @export
+
+AnnotationHeight<-function(X1,Y1, X2, Y2,
+                              CamSetup){
+
+    # call main function parsing Camera setup
+    return(AnnotationHeightFull(X1,Y1, X2, Y2,
+                                   CamSetup$NadirX, CamSetup$NadirY,
+                                   CamSetup$PPX, CamSetup$PPY,
+                                   CamSetup$CamConstantC,
+                                   CamSetup$CamHeight))
+}
