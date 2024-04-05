@@ -319,7 +319,7 @@ AnnotationHeightFull<-function(X1,Y1, X2, Y2,
 #' @param X1 x pixel coordinate of base of annotation object
 #' @param Y1 y pixel coordinate of base of annotation object
 #' @param X2 x pixel coordinate of top of annotation object
-#' @param Y1 y pixel coordinate of top of annotation object
+#' @param Y2 y pixel coordinate of top of annotation object
 #' @param CamSetup details of camera as output from function CamSetup
 #' @details Calculate height of an annotation in an image where camera specifics such as FOV, height & angle are known
 #' @return A list with the following elements
