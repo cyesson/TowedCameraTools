@@ -58,7 +58,7 @@ ImageWidthFromLasers(LaserXY1=c(400, 900), LaserXY2=c(700, 900), LaserDistanceM=
 ```
 
 Validate trigonometric calcuations based on laser points. Calculates image width at height of lasers and compares with trigonometric calculations.
-```
+``` r
 # requires details for functions ImageWidthFromLasers and ImageArea
 ValidateWithLasers(LaserXY1=c(400, 900), LaserXY2=c(700, 900), LaserDistanceM=0.2, PixelDimensions=c(2000, 1000), 
                    Height=0.55, Angle=28.8, VFOV=40.3, HFOV=66.4)
