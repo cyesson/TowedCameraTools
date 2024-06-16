@@ -76,3 +76,27 @@ ImageArea <- function(Height, Angle, VFOV, HFOV, Proportion=1){
                 AreaS=S,
                 ImageArea=S))
 }
+
+################################################################
+# Related function that depends on the same code
+################################################################
+
+#' Estimate width of image at a given point seen in tilted camera pointing at the seabed
+#' @param Height - Height of the camera above the seabed (in m)
+#' @param Angle - Angle (in dgrees) of the camera pointing down from the horizontal
+#' @param VFOV - Vertical field of view angle (in degrees)
+#' @param HFOV - Horizontal field of view angle (in degrees)
+#' @param Position - Position in the image to calculate width (Proption 0-1, where 0 is along the bottom of the image, 1 is the top and 0.5 (default) is the midline.
+#' @details Estimate image width seen in tilted camera pointing at the seabed based on Nakajima, R. et al. (2014) A new method for estimating the area of the seafloor from oblique images taken by deep-sea submersible survey platforms. JAMSTEC Report of Research and Development, 19, pp.59-66, as used in Long et al (2020) https://www.frontiersin.org/articles/10.3389/fmars.2020.00460/full
+#' @return width of the image in m at the position selected
+#' @examples
+#' x <- ImageWidth(Height=0.55, Angle=28.8, VFOV=40.3, HFOV=66.4, Position=0.5)
+#' @export
+
+ImageWidth <- function(Height, Angle, VFOV, HFOV, Position=0.5){
+
+    # call image area function parsing position as the proportion
+    ImageArea <- ImageArea(Height, Angle, VFOV, HFOV, Position)
+
+    return(ImageArea$LengthAE)
+}
