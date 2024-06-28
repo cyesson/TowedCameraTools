@@ -139,6 +139,11 @@ ValidateWithLasers <- function(LaserXY1, LaserXY2, LaserDistanceM, PixelDimensio
     }
     BestHeightDiff <- BestDiff
     
+    # find image areas for original setup and best angle / best height setup
+    OrigSetup<- ImageArea( Height, Angle, VFOV, HFOV, Proportion=1)
+    BestAngleSetup<- ImageArea( Height, BestAngle, VFOV, HFOV, Proportion=1)
+    BestHeightSetup<- ImageArea( BestHeight, Angle, VFOV, HFOV, Proportion=1)
+
     return(list(LaserXY1=LaserXY1,
                 LaserXY2=LaserXY2,
                 LaserDistanceM=LaserDistanceM,
@@ -152,5 +157,9 @@ ValidateWithLasers <- function(LaserXY1, LaserXY2, LaserDistanceM, PixelDimensio
                 TrigWidth=TrigWidth,
                 WidthDifference=abs(LaserWidth$ImageWidth-TrigWidth),
                 BestAngle=BestAngle,
-                BestHeight=BestHeight))
+                BestHeight=BestHeight,
+                TrigAreaOrig=OrigSetup$ImageArea,
+                TrigAreaBestHeight=BestHeightSetup$ImageArea,
+                TrigAreaBestAngle=BestAngleSetup$ImageArea
+                ))
 }
