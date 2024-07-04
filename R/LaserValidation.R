@@ -80,6 +80,9 @@ ImageWidthFromLasers <- function( LaserXY1, LaserXY2, LaserDistanceM, PixelDimen
 #' WidthDifference - Absolute difference between two image width measurements
 #' BestAngle - Camera angle that produces trigonometric image-width calculation that matches laser width (assuming fixed camera height)
 #' BestHeight - Camera height that produces trigonometric image-width calculation that matches laser width (assuming fixed camera angle)
+#' TrigAreaOrig - Area of image based on trigonometry of given camera settings
+#' TrigAreaBestHeight - Area of image based on revised camera height that fits laser validation
+#' TrigAreaBestAngle - Area of image based on revised camera angle that fits laser validation
 #' @examples
 #' x <- ValidateWithLasers(c(400, 900), c(700, 900), 0.2, c(2000, 1000), Height=0.55, Angle=28.8, VFOV=40.3, HFOV=66.4)
 #' @export

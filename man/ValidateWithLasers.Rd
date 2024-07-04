@@ -64,6 +64,9 @@ TrigWidth - Trigometry-based width of image at height of lasers
 WidthDifference - Absolute difference between two image width measurements
 BestAngle - Camera angle that produces trigonometric image-width calculation that matches laser width (assuming fixed camera height)
 BestHeight - Camera height that produces trigonometric image-width calculation that matches laser width (assuming fixed camera angle)
+TrigAreaOrig - Area of image based on trigonometry of given camera settings
+TrigAreaBestHeight - Area of image based on revised camera height that fits laser validation
+TrigAreaBestAngle - Area of image based on revised camera angle that fits laser validation
 }
 \description{
 Estimate width of image based on laser annotations
