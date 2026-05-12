@@ -1,5 +1,6 @@
 # TowedCameraTools
 A variety of tools for working with benthic imagery from towed camera surveys
+Development on this repository has been moved to [https://github.com/DeepNCheap/TowedCameraTools](https://github.com/DeepNCheap/TowedCameraTools), please use this version instead
 
 ## Installation
 
